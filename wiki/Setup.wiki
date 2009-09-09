@@ -1,5 +1,3 @@
-#summary Setup
-
 = How to get Gilgamesh up and running =
 
   # Download Gilgamesh.
