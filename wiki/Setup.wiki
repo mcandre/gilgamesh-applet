@@ -1,0 +1,14 @@
+#summary Setup
+
+= How to get Gilgamesh up and running =
+
+  # Download Gilgamesh.
+  # Install.
+  # Launch Gilgamesh.
+  # Enter your username (GMU email address without @gmu.edu) and password.
+  # Click Apply. If a message displays "Bad username/password", type them in again.
+
+= Using Gilgamesh =
+
+  * Gilgamesh runs at the top (Mac) or bottom (Windows) right of the screen.
+  * A red 'X' over Gilgamesh indicates that it is not currently logged in. Right-click and select Refresh to force it to login.
