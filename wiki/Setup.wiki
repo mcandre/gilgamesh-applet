@@ -1,6 +1,6 @@
 = How to get Gilgamesh up and running =
 
-  # [Downloads Download Gilgamesh].
+  # [http://code.google.com/p/gilgamesh-applet/downloads/list Download] Gilgamesh.
   # Install.
   # Launch Gilgamesh.
   # Enter your username (GMU email address without @gmu.edu) and password.
