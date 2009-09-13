@@ -5,6 +5,7 @@
 # PyGTK applet for gilgamesh 
 # Based in part on http://polariscorp.free.fr/screenapplet.php
 
+import sys
 import pygtk
 pygtk.require('2.0')
 import gtk

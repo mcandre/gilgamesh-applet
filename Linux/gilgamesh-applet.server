@@ -10,7 +10,7 @@
                 <oaf_attribute name="description" type="string" value="Gilgamesh Applet"/>
         </oaf_server>
 
-        <oaf_server iid="OAFIID:GNOME_ScreenSt"
+        <oaf_server iid="OAFIID:GNOME_Gilgamesh"
                     type="factory" location="OAFIID:GNOME_Gilgamesh_Factory">
 
                 <oaf_attribute name="repo_ids" type="stringv">
