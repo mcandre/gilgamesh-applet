@@ -1,9 +1,12 @@
 #!/usr/bin/env python
-import pygtk
-import sys
-import os
-pygtk.require('2.0')
 
+# Alex Schoof
+#
+# PyGTK applet for gilgamesh 
+# Based in part on http://polariscorp.free.fr/screenapplet.php
+
+import pygtk
+pygtk.require('2.0')
 import gtk
 import gnomeapplet
 import gilgamesh
@@ -107,4 +110,4 @@ if len(sys.argv) == 2:
 		gtk.main()
 		sys.exit()
 
-gnomeapplet.bonobo_factory("OAFIID:GNOME_ScreenSt_Factory",gnomeapplet.Applet.__gtype__,"Take screenshot", "1.0", sample_factory)
+gnomeapplet.bonobo_factory("OAFIID:GNOME_Gilgamesh_Factory",gnomeapplet.Applet.__gtype__,"Log into UAC/MUST", "0.1", sample_factory)
