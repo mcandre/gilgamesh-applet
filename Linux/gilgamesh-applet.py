@@ -6,6 +6,7 @@
 # Based in part on http://polariscorp.free.fr/screenapplet.php
 
 import sys
+import os
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -14,7 +15,7 @@ import gilgamesh
 import threading
 import ConfigParser
 
-configFileLocation = 'gilgamesh.ini'
+configFileLocation = '/home/alex/PRojects/gilgamesh-applet/Linux/gilgamesh.ini'
 mainImage = None
 isUp = False
 waitTimer = None
@@ -36,6 +37,8 @@ def login():
 	waitTimer.start()
 
 def force_refresh(*arguments, **keywords):
+	mainImage.set_from_file("up.ico")
+	isUp = True
 	login()
 
 def set_username(*arguments, **keywords):
