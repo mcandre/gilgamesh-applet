@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>startMeAtLogin</key>
+	<true/>
+	<key>firstTime</key>
+	<true/>
+	<key>wait</key>
+	<integer>2400</integer>
+	<key>timeout</key>
+	<integer>4</integer>
+	<key>url</key>
+	<string>https://uac.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed</string>
+	<key>url_wireless</key>
+	<string>https://uacwireless.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed</string>
+	<key>useragent</key>
+	<string>Windows Mozilla</string>
+	<key>success</key>
+	<string>You have successfully logged in</string>
+	<key>success_wireless</key>
+	<string>You have gained full access to the network</string>
+	<key>username</key>
+	<string></string>
+	<key>password</key>
+	<string></string>
+</dict>
+</plist>
