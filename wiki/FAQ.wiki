@@ -1,5 +1,5 @@
 #summary Frequently Asked Questions
-#labels Featured,Phase-Deploy
+#labels Featured,Phase-Design
 
 = What is Gilgamesh? =
 
@@ -8,3 +8,7 @@ The program runs quietly in the system tray, keeping GMU students logged in to S
 = Is Gilgamesh Safe? =
 
 Some GMU students worry that the IT department prohibits Gilgamesh, or that they will be penalized for using it. Let us clear this up now: Gilgamesh does not in any way hack, bypass, or otherwise the normal login process. It simply logs in automatically at regular intervals, saving students some effort.
+
+= Why does't Gilgamesh work on Mac, Windows, Linux, etc.? =
+
+This project is new. We're working on it. In the mean time, try out the [http://code.google.com/p/gilgamesh-applet/source/browse/#svn/trunk/scripts scripts].
