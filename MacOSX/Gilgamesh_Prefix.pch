@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Gilgamesh' target in the 'Gilgamesh' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Gilgamesh.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="url" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://uac.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed</Value>
+    </Setting>
+    <Setting Name="useragent" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Windows Mozilla</Value>
+    </Setting>
+    <Setting Name="success" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">You have successfully logged in.</Value>
+    </Setting>
+    <Setting Name="timeout" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="wait" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1200000</Value>
+    </Setting>
+    <Setting Name="username" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="password" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="firstTime" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
