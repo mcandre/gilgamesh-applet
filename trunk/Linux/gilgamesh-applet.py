@@ -15,7 +15,7 @@ import gilgamesh
 import threading
 import ConfigParser
 
-configFileLocation = '/home/alex/PRojects/gilgamesh-applet/Linux/gilgamesh.ini'
+configFileLocation = 'gilgamesh.ini'
 mainImage = None
 isUp = False
 waitTimer = None
