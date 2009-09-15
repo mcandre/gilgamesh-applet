@@ -1,4 +1,6 @@
+#summary Installation and Basic Usage
 #labels Featured,Phase-Deploy
+
 = How to get Gilgamesh up and running =
 
   # [http://code.google.com/p/gilgamesh-applet/downloads/list Download] Gilgamesh.
