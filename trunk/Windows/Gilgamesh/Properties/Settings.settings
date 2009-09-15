@@ -9,13 +9,13 @@
       <Value Profile="(Default)">Windows Mozilla</Value>
     </Setting>
     <Setting Name="success" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">You have successfully logged in.</Value>
+      <Value Profile="(Default)">You have successfully logged in</Value>
     </Setting>
     <Setting Name="timeout" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="wait" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1200000</Value>
+      <Value Profile="(Default)">2400000</Value>
     </Setting>
     <Setting Name="username" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -25,6 +25,12 @@
     </Setting>
     <Setting Name="firstTime" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="url_wireless" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://uacwireless.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed</Value>
+    </Setting>
+    <Setting Name="success_wireless" Type="System.String" Scope="User">
+      <Value Profile="(Default)">You have gained full access to the network</Value>
     </Setting>
   </Settings>
 </SettingsFile>
