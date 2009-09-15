@@ -36,19 +36,20 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.passBox = new System.Windows.Forms.TextBox();
             this.userBox = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(123, 98);
+            this.applyButton.Location = new System.Drawing.Point(145, 98);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 23);
             this.applyButton.TabIndex = 0;
@@ -98,6 +99,11 @@
             this.refreshMenuItem.Size = new System.Drawing.Size(135, 22);
             this.refreshMenuItem.Text = "Refresh";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(132, 6);
+            // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
@@ -139,16 +145,20 @@
             this.userBox.TabIndex = 3;
             this.userBox.Text = global::Gilgamesh.Properties.Settings.Default.username;
             // 
-            // toolStripSeparator1
+            // statusLabel
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(132, 6);
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(14, 103);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(0, 13);
+            this.statusLabel.TabIndex = 6;
             // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(210, 133);
+            this.ClientSize = new System.Drawing.Size(233, 133);
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.passBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.userBox);
@@ -184,6 +194,7 @@
         private System.Windows.Forms.ToolStripMenuItem quitMenuItem;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 

@@ -31,7 +31,8 @@ namespace Gilgamesh {
 
             resourcePath=Application.StartupPath+"\\";
 
-            loginScript=resourcePath+"uac_login.exe";
+            loginScript=resourcePath+"gilgamesh-script.exe";
+
             upIcon=new System.Drawing.Icon(resourcePath+"up.ico");
             downIcon=new System.Drawing.Icon(resourcePath+"down.ico");
 
@@ -75,8 +76,10 @@ namespace Gilgamesh {
             Cursor.Current=Cursors.Arrow;
 
             if (successful) {
-                applyButton.Text="Success";
-                applyButton.Enabled=false;
+                statusLabel.Text = "Success";
+            }
+            else {
+                statusLabel.Text = "Bad username/password";
             }
         }
 
@@ -96,10 +99,12 @@ namespace Gilgamesh {
 
         private void login() {
             String args=String.Format(
-                "\"{0:G}\" \"{1:G}\" \"{2:G}\" \"{3:G}\" \"{4:G}\" \"{5:G}\"",
+                "-n \"{0:G}\" \"{1:G}\" \"{2:G}\" \"{3:G}\" \"{4:G}\" \"{5:G}\" \"{6:G}\" \"{7:G}\"",
                 Settings.Default.url,
+                Settings.Default.url_wireless,
                 Settings.Default.useragent,
                 Settings.Default.success,
+                Settings.Default.success_wireless,
                 Settings.Default.timeout,
                 Settings.Default.username,
                 Settings.Default.password
