@@ -5,10 +5,11 @@
 # Based on Colin Edwards' UAC Bypass
 # http://www.recursivepenguin.com/index.php?projectID=3
 #
-# Usage: ./gilgamesh.pl or ./gilgamesh.pl -n <options>
 
 use strict;
 use warnings;
+
+use Getopt::Long;
 
 use Error qw(:try);
 use YAML qw(LoadFile);
@@ -17,100 +18,305 @@ use Crypt::SSLeay;
 use WWW::Mechanize;
 use HTML::TokeParser;
 
+our $DEBUG=0;
+
+our @PORTALS=(
+	"https://uac.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed",
+	"https://uacwireless.gmu.edu/dana-na/auth/url_0/welcome.cgi?p=failed"
+);
+
+our $LOGOUT_PATH="/dana-na/auth/logout.cgi";
+
+our $CHECK_URL="http://www.google.com/";
+our $CHECK_SUCCESS="Google Search";
+
 # From http://perl.coding-school.com/perl-timeout/
 sub gripe {
 	throw Error::Simple("Timeout");
 }
 $SIG{ALRM}=\&gripe;
 
-sub login {
+sub check_online {
+	print "Checking online status...\n" if $DEBUG;
+
 	my $settings=shift;
 
-	my $agent=WWW::Mechanize->new;
-	$agent->agent_alias($settings->{"useragent"});
+	my $useragent=$settings->{"useragent"};
+	my $timeout=$settings->{"timeout"};
+
+	my $success=0;
 
 	try {
-		$settings->{"connection"}="wireless";
+		print "Creating robot...\n" if $DEBUG;
 
-		alarm $settings->{"timeout"};
-		$agent->get($settings->{"url_wireless"});
-		alarm 0;
-	}
-	catch Error with {
-		alarm 0;
+		my $agent=WWW::Mechanize->new;
 
-		$agent=WWW::Mechanize->new;
+		print "Created.\n" if $DEBUG;
+
+		print "Setting useragent: $useragent\n" if $DEBUG;
+
 		$agent->agent_alias($settings->{"useragent"});
 
-		try {
-			$settings->{"connection"}="wired";
+		print "Set.\n" if $DEBUG;
 
-			alarm $settings->{"timeout"};
-			$agent->get($settings->{"url"});
-			alarm 0;
-		}
-		catch Error with {
-			alarm 0;
-		};
-	};
+		alarm $settings->{"timeout"};
 
-	if ($agent->success) {
-		$agent->submit_form(form_number=>1, fields=>{username=>$settings->{"username"}, password=>$settings->{"password"}});
-		$agent->submit_form(form_number=>1);
+		print "Timeout started: $timeout\n" if $DEBUG;
 
-		if ($settings->{"connection"} eq "wireless") {
-			return $agent->success && $agent->content =~ /$settings->{"success_wireless"}/;
-		}
-		else {
-			return $agent->success && $agent->content =~ /$settings->{"success"}/;
-		}
-	}
+		$agent->get($CHECK_URL);
 
-	return 0;
-}
+		print "Current URI: " . $agent->uri . "\n" if $DEBUG;
 
-my $settings={};
+		alarm 0;
 
-# -n for no yaml config
-if (@ARGV>0 && $ARGV[0] eq "-n") {
-	$settings={
-		"url" => $ARGV[1],
-		"url_wireless" => $ARGV[2],
-		"useragent" => $ARGV[3],
-		"success" => $ARGV[4],
-		"success_wireless" => $ARGV[5],
-		"timeout" => $ARGV[6],
-		"username" => $ARGV[7],
-		"password" => $ARGV[8]
-	};
+		print "Timeout cancelled.\n" if $DEBUG;
 
-	if (login($settings)) {
-		exit(0);
-	}
-	else {
-		exit(1);
-	}
-}
-else {
-	try {
-		open my $f, "<", dirname($0)."/gilgamesh.yaml";
-		$settings=LoadFile($f);
-		$settings->{"no-config"}=0;
-		close $f;
+		print "Reading response...\n" if $DEBUG;
+
+		$success = $agent->success && $agent->content =~ /$CHECK_SUCCESS/;
+
+		print "Read.\n" if $DEBUG;
 	}
 	catch Error with {
-		die("Error reading gilgamesh.yaml\n");
+		print "Error checking online status!\n" if $DEBUG;
 	};
 
-	while(1) {
-		my $time=localtime;
+	print "Online: $success\n" if $DEBUG;
 
-		if (login($settings)) {
-			print("Login   $time\n");
+	return $success;
+}
+
+sub login {
+	print "Logging in ...\n" if $DEBUG;
+
+	my $settings=shift;
+	my $useragent=$settings->{"useragent"};
+	my $username=$settings->{"username"};
+	my $password=$settings->{"password"};
+	my $timeout=$settings->{"timeout"};
+	my $logout=$settings->{"logout"};
+
+	print "Username: $username\n" if $DEBUG;
+	print "Password: $password\n" if $DEBUG;
+
+	my $success=0;
+
+	foreach my $url (@PORTALS) {
+		try {
+			print "Portal: $url\n" if $DEBUG;
+
+			print "Creating robot...\n" if $DEBUG;
+
+			my $agent=WWW::Mechanize->new;
+
+			print "Created.\n" if $DEBUG;
+
+			print "Setting useragent: $useragent\n" if $DEBUG;
+
+			$agent->agent_alias($useragent);
+
+			print "Set.\n" if $DEBUG;
+
+			print "Opening portal...\n" if $DEBUG;
+
+			alarm $timeout;
+
+			print "Timeout started: $timeout\n" if $DEBUG;
+
+			$agent->get($url);
+
+			print "Opened portal.\n" if $DEBUG;
+
+			print "Current URI: " . $agent->uri . "\n" if $DEBUG;
+
+			print "Submitting login forms...\n" if $DEBUG;
+
+			$agent->submit_form(form_number=>1, fields=>{username=>$username, password=>$password});
+
+			print "Current URI: " . $agent->uri . "\n" if $DEBUG;
+
+			print "Clicking login button...\n" if $DEBUG;
+
+			$agent->submit_form(form_number=>1);
+
+			print "Current URI: " . $agent->uri . "\n" if $DEBUG;
+
+			print "Form submitted.\n" if $DEBUG;
+
+			if ($logout) {
+				print "Logging out...\n" if $DEBUG;
+
+				$agent->get($LOGOUT_PATH);
+
+				print "Current URI: " . $agent->uri . "\n" if $DEBUG;
+			}
+
+			alarm 0;
+
+			print "Timeout cancelled.\n" if $DEBUG;
+		}
+		catch Error with {
+			print "Error! logging in/out\n" if $DEBUG;
+		};
+	}
+
+	if ($logout) {
+		$success = not check_online($settings);
+	}
+	else {
+		$success = check_online($settings);
+	}
+
+	print "Success: $success\n" if $DEBUG;
+
+	return $success;
+}
+
+sub usage {
+	print "Usage: $0\n";
+	print "\n--conf, -c <file> (default)\n";
+	print "--logout, -l Login, then logout.\n";
+	print "--embed, -e Embed mode. Requires username and password to be set.\n";
+	print "\n--user, -u <username>\n";
+	print "--pass, -p <password>\n";
+	print "--time, -t <timeout> (secs)\n";
+	print "--wait, -w <wait_between_login_attempts> (secs)\n";
+	print "--agent, -a <useragent>\n";
+	print "\n--debug, -d Debug mode\n";
+	print "--help, -h Help\n";
+
+	exit 0;
+}
+
+my $config=dirname($0) . "/gilgamesh.yaml";
+my $embed=0;
+my $username="snapuser";
+my $password="snappass";
+my $timeout=4;
+my $wait=60;
+my $useragent="Windows Mozilla";
+my $logout=0;
+my $help=0;
+
+my $result=GetOptions(
+	"conf|c=s" => \$config,
+	"embed|e" => \$embed,
+	"user|u=s" => \$username,
+	"pass|p=s" => \$password,
+	"time|t=i" => \$timeout,
+	"wait|w=i" => \$wait,
+	"agent|a=s" => \$useragent,
+	"logout|l" => \$logout,
+	"debug|d" => \$DEBUG,
+	"help|h" => \$help
+);
+
+my $settings={
+	"username" => $username,
+	"password" => $password,
+	"timeout" => $timeout,
+	"wait" => $wait,
+	"useragent" => $useragent,
+	"logout" => $logout
+};
+
+# warning: config file overwrites command line options
+unless ($embed) {
+	try {
+		print "Opening config file: $config\n" if $DEBUG;
+
+		open my $f, "<", $config;
+
+		print "Opened.\n" if $DEBUG;
+
+		print "Loading settings...\n" if $DEBUG;
+
+		$settings=LoadFile($f);
+
+		print "Loaded.\n" if $DEBUG;
+
+		print "Closing file...\n" if $DEBUG;
+
+		close $f;
+
+		print "Closed.\n" if $DEBUG;
+	}
+	catch Error with {}; # silently ignore
+}
+
+if ($result == 0 || $help) {
+	usage;
+}
+
+if ($embed) {
+	print "Embed mode.\n" if $DEBUG;
+
+	my $success=login $settings;
+
+	if ($success) {
+		if ($logout) {
+			print "Exiting with logout success signal.\n" if $DEBUG;
+
+			exit 0;
 		}
 		else {
-			print("Failure $time\n");
+			print "Exiting with login success signal.\n" if $DEBUG;
+
+			exit 0;
 		}
+	}
+	else {
+		if ($logout) {
+			print "Exiting with logout failure signal.\n" if $DEBUG;
+
+			exit 1;
+		}
+		else {
+			print "Exiting with login failure signal.\n" if $DEBUG;
+		}
+	}
+}
+elsif ($logout) {
+	print "Logging out...\n";
+
+	if (login $settings) {
+		print "Logged out.\n";
+	}
+	else {
+		print "Logout failed.\n";
+	}
+
+}
+else {
+	print "Beginning SNAP session...\n";
+
+	# Logout once.
+
+	print "Initial logout...\n" if $DEBUG;
+
+	$settings->{"logout"}=1;
+	login $settings;
+	$settings->{"logout"}=0;
+
+	# Poll for Internet access every WAIT seconds.
+	# If disconnected, login.
+
+	while (1) {
+		my $time=localtime;
+
+		if (check_online($settings)) {
+			print "Currently online. $time\n";
+		}
+		else {
+			if (login $settings) {
+				print "Logged in. $time\n";
+			}
+			else {
+				print "Login failed. $time\n";
+			}
+		}
+
+		print "Waiting...\n" if $DEBUG;
 
 		sleep $settings->{"wait"};
 	}
