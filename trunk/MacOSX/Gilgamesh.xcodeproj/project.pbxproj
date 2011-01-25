@@ -32,7 +32,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Gilgamesh_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gilgamesh_Prefix.pch; sourceTree = "<group>"; };
 		496C6F410F8AD7FC007E12A6 /* gilgamesh.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gilgamesh.icns; sourceTree = "<group>"; };
-		496C6F910F8ADE32007E12A6 /* gilgamesh-macosx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; name = "gilgamesh-macosx"; path = "../scripts/bin/gilgamesh-macosx"; sourceTree = "<group>"; };
+		496C6F910F8ADE32007E12A6 /* gilgamesh-macosx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; name = "gilgamesh-macosx"; path = "../scripts/gilgamesh-macosx"; sourceTree = "<group>"; };
 		498C87EF105629020060ED0E /* add_login_item.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = add_login_item.applescript; sourceTree = "<group>"; };
 		498C87F0105629020060ED0E /* delete_login_item.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = delete_login_item.applescript; sourceTree = "<group>"; };
 		49C6C4C50F8A943200C147BF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -287,7 +287,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
