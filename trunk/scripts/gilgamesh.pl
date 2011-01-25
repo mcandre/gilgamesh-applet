@@ -14,6 +14,7 @@ use Getopt::Long;
 use Error qw(:try);
 use YAML qw(LoadFile);
 use File::Basename;
+use Hash::Merge qw(merge);
 use Crypt::SSLeay;
 use WWW::Mechanize;
 use HTML::TokeParser;
@@ -156,7 +157,12 @@ sub login {
 			print "Timeout cancelled.\n" if $DEBUG;
 		}
 		catch Error with {
-			print "Error! logging in/out\n" if $DEBUG;
+			if ($logout) {
+				print "Error logging out\n" if $DEBUG;
+			}
+			else {
+				print "Error logging in\n" if $DEBUG;
+			}
 		};
 	}
 
@@ -220,8 +226,13 @@ my $settings={
 	"logout" => $logout
 };
 
-# warning: config file overwrites command line options
-unless ($embed) {
+my $merged_settings;
+
+# Warning: config file overwrites command line options
+if ($embed) {
+	$merged_settings = $settings;
+}
+else {
 	try {
 		print "Opening config file: $config\n" if $DEBUG;
 
@@ -231,7 +242,7 @@ unless ($embed) {
 
 		print "Loading settings...\n" if $DEBUG;
 
-		$settings=LoadFile($f);
+		my $file_settings=LoadFile($f);
 
 		print "Loaded.\n" if $DEBUG;
 
@@ -240,6 +251,9 @@ unless ($embed) {
 		close $f;
 
 		print "Closed.\n" if $DEBUG;
+
+		# Merge. File settings take precedence.
+		$merged_settings = merge($file_settings, $settings);
 	}
 	catch Error with {}; # silently ignore
 }
@@ -251,7 +265,7 @@ if ($result == 0 || $help) {
 if ($embed) {
 	print "Embed mode.\n" if $DEBUG;
 
-	my $success=login $settings;
+	my $success=login $merged_settings;
 
 	if ($success) {
 		if ($logout) {
@@ -279,7 +293,7 @@ if ($embed) {
 elsif ($logout) {
 	print "Logging out...\n";
 
-	if (login $settings) {
+	if (login $merged_settings) {
 		print "Logged out.\n";
 	}
 	else {
@@ -294,9 +308,9 @@ else {
 
 	print "Initial logout...\n" if $DEBUG;
 
-	$settings->{"logout"}=1;
-	login $settings;
-	$settings->{"logout"}=0;
+	$merged_settings->{"logout"}=1;
+	login $merged_settings;
+	$merged_settings->{"logout"}=0;
 
 	# Poll for Internet access every WAIT seconds.
 	# If disconnected, login.
@@ -304,20 +318,15 @@ else {
 	while (1) {
 		my $time=localtime;
 
-		if (check_online($settings)) {
-			print "Currently online. $time\n";
+		if (login $merged_settings) {
+			print "Logged in. $time\n";
 		}
 		else {
-			if (login $settings) {
-				print "Logged in. $time\n";
-			}
-			else {
-				print "Login failed. $time\n";
-			}
+			print "Login failed. $time\n";
 		}
 
-		print "Waiting...\n" if $DEBUG;
+		print "Waiting " . $merged_settings->{"wait"} . " sec...\n";
 
-		sleep $settings->{"wait"};
+		sleep $merged_settings->{"wait"};
 	}
 }
