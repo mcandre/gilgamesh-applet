@@ -1,5 +1,5 @@
 useragent: Windows Mozilla
 timeout: 4
-wait: 60
+wait: 600
 username: snapuser
 password: snappass
